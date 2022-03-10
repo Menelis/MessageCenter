@@ -9,6 +9,11 @@ namespace Core.Services
         /// Returns a list of employees who's celebrating their birthdays today
         /// </summary>
         /// <returns></returns>
-         Task<IEnumerable<Employee>> GetEmployeeBirthDays();
+        Task<IEnumerable<Employee>> GetEmployeeBirthDays();
+        /// <summary>
+        /// Returs the Ids of employees who must be excluded from receiving birthday wishes 
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<int>> GetExcludedEmployeesIds();
     }
 }

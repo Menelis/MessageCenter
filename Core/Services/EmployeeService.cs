@@ -19,9 +19,15 @@ namespace Core.Services
         }
         public async Task<IEnumerable<Employee>> GetEmployeeBirthDays()
         {
-            var employees = await _webApiAccess.GetData<Employee>(_applicationSettings.ApiEndPointUrl);
-            return employees.Where(employee => employee.ItsYourBirthDay)
+            var employees = await _webApiAccess.GetData<Employee>($"{_applicationSettings.ApiEndPointUrl}/employees");
+            var excludedEmployeesIds = await GetExcludedEmployeesIds();           
+            return employees.Where(employee => employee.ItsYourBirthDay && !excludedEmployeesIds.Contains(employee.Id))
                             .ToList();
+        }
+
+        public async Task<IEnumerable<int>> GetExcludedEmployeesIds()
+        {
+            return await _webApiAccess.GetData<int>($"{_applicationSettings.ApiEndPointUrl}/do-not-send-birthday-wishes");
         }
     }
 }
